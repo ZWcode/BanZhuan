@@ -1,0 +1,79 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+	</style>
+    <link rel="stylesheet" type="text/css" href="http://webmap1.map.bdstatic.com/wolfman/static/common/pkg/index_dba36ac.css"/>
+    <link rel="stylesheet" type="text/css" href="http://webmap1.map.bdstatic.com/wolfman/static/common/widget/ui/prompt/prompt_5b31ddb.css"/>
+    <link rel="stylesheet" type="text/css" href="http://webmap0.map.bdstatic.com/wolfman/static/pano/widget/module/PoiSearchModule/PoiSearchModule_a6c078f.css"/>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=TOt7toW1kBuyd3tjFlttScalBG7WEAPK"></script>
+	<title>浏览器定位</title>
+</head>
+<body>
+	<div id="allmap"></div>
+<div id="left-panel">
+<div id="searchbox" class="clearfix">
+<div id="searchbox-container">
+<div id="sole-searchbox-content" class="searchbox-content">
+<input id="sole-input" oninput="OnInput (OnInput)" class="searchbox-content-common" type="text" name="word" autocomplete="off" maxlength="256" placeholder="输入目标位置" value="" />
+<div class="input-clear" title="清空"></div>
+{#<div class="searchbox-content-button right-button route-button loading-button" data-title="路线"></div>#}
+{#    <button id="search-button" data-title="搜索"></button>#}
+{#<div id="toast-wrapper">#}
+{#<div id="toast">#}
+{#<img class="info-tip-img" src="/wolfman/static/common/images/transparent.gif" alt="" />#}
+{#<span class="info-tip-text"></span>#}
+{#</div>#}
+{#</div>#}
+{#</div>#}
+{#</div>#}
+</div>
+    </div>
+    </div>
+    </div>
+<div id="app-right-top">
+{#    <button style="background: url(/tenement/static/img/arr.png) no-repeat;width: 50px;height: 60px"></button>#}
+    <img style="width: 50px" src={% static "/img/arr.png" %}>
+{#<div style="background-color: white;color: black;height: 60px;width: 300px">这里</div>#}
+</div>
+</body>
+</html>
+<script type="text/javascript" src={% static "/js/jquery-2.1.1.min.js" %} ></script>
+<script type="text/javascript">
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+	var point = new BMap.Point(116.331398,39.897445);
+	map.centerAndZoom(point,12);
+	var geolocation = new BMap.Geolocation();
+	geolocation.getCurrentPosition(function(r){
+		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+			var mk = new BMap.Marker(r.point);
+			map.addOverlay(mk);
+			map.panTo(r.point);
+{#			alert('您的位置：'+r.point.lng+','+r.point.lat);#}
+		}
+		else {
+			alert('failed'+this.getStatus());
+		}
+	},{enableHighAccuracy: true});
+	//关于状态码
+	//BMAP_STATUS_SUCCESS	检索成功。对应数值“0”。
+	//BMAP_STATUS_CITY_LIST	城市列表。对应数值“1”。
+	//BMAP_STATUS_UNKNOWN_LOCATION	位置结果未知。对应数值“2”。
+	//BMAP_STATUS_UNKNOWN_ROUTE	导航结果未知。对应数值“3”。
+	//BMAP_STATUS_INVALID_KEY	非法密钥。对应数值“4”。
+	//BMAP_STATUS_INVALID_REQUEST	非法请求。对应数值“5”。
+	//BMAP_STATUS_PERMISSION_DENIED	没有权限。对应数值“6”。(自 1.1 新增)
+	//BMAP_STATUS_SERVICE_UNAVAILABLE	服务不可用。对应数值“7”。(自 1.1 新增)
+	//BMAP_STATUS_TIMEOUT	超时。对应数值“8”。(自 1.1 新增)
+    function OnInput() {
+        console.log($('#sole-input').val());
+    }
+</script>
+
+
+<!DOCTYPE html>
